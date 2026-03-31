@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>The Arena of Karma - Paramapadam</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Libre+Baskerville&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body class="play-page">
+    <header>
+        <h1>The Path to Vaikuntha</h1>
+        <p>Roll the die to navigate the virtues and vices of existence.</p>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="mainPage.html"><i class="fa-solid fa-house"></i> Home</a></li>
+            <li><a href="rules.html"><i class="fa-solid fa-book"></i> Rules</a></li>
+            <li><a href="play.html"><i class="fa-solid fa-dice"></i> Play</a></li>
+            <li><a href="login.html"><i class="fa-solid fa-user"></i> Login</a></li>
+        </ul>
+    </nav>
+
+    <main class="game-container">
+        <div id="board-area">
+            <canvas id="gameCanvas" width="500" height="500"></canvas>
+            
+            <div id="player1-token" class="token player1"></div>
+            <div id="player2-token" class="token player2"></div>
+        </div>
+
+        <div id="controls">
+            <div class="status-box">
+                <h3 id="turn-indicator" style="color: #8B0000; margin-top: 0; font-family: 'Cinzel', serif;">Player 1's Turn (Gold)</h3>
+                
+                <h4>Current State: <span id="current-square">Square 1</span></h4>
+                <p id="game-message">Roll the die to begin your journey.</p>
+            </div>
+
+            <div class="dice-section">
+                <div id="dice-display"><i class="fa-solid fa-dice-one fa-3x"></i></div>
+                <button id="roll-btn" class="manuscript-btn" onclick="rollDie()">Invoke Fate (Roll Die)</button>
+            </div>
+
+            <div class="music-section">
+                <button id="music-btn" class="manuscript-btn" onclick="toggleMusic()">
+                    <i class="fa-solid fa-music"></i> Play Sacred Ambient
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <audio id="bg-music" loop>
+        <source src="pixel_perfect_productions-flute-amp-sitar-orchestral-fusion-447398.mp3" type="audio/mpeg">
+    </audio>
+
+    <script src="game.js"></script>
+</body>
+</html>

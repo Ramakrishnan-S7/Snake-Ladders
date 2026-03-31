@@ -1,0 +1,255 @@
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Libre Baskerville", serif;
+    background-color: #f7f3e9;
+    background-image: url("manuscript_backgrund.jpg");
+    color: #2b2b2b;
+    line-height: 1.6;
+}
+
+header {
+    margin: 10px;
+    padding: 1.5rem;
+    border: 4px double #3b2f2f;
+    background-color: #3b2f2f;
+    color: #f5f0e6;
+    font-family: "Cinzel", serif;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+header h1 {
+    margin-bottom: 0.5rem;
+    text-align: center;
+    letter-spacing: 2px;
+    font-size: 1.5rem;
+}
+
+header p {
+    position: absolute;
+    left: 40%;
+    font-size: 0.9rem;
+}
+
+nav {
+    margin: 10px;
+    background-color: #5a4635;
+    border-radius: 4px;
+}
+
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+nav a {
+    color: #f5f0e6;
+    padding: 1rem;
+    display: block;
+    text-decoration: none;
+    transition: background 0.3s;
+    font-size: 0.9rem;
+}
+
+nav a:hover {
+    background-color: #7a6350;
+    color: #fff;
+}
+
+.rule-box, #history {
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #c2b280;
+    background-color: rgba(255, 250, 240, 0.8);
+    box-shadow: 5px 5px 15px rgba(0,0,0,0.05);
+}
+
+.symbol-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    font-size: 0.85rem;
+}
+
+.symbol-table th, .symbol-table td {
+    border: 1px solid #3b2f2f;
+    padding: 8px;
+    text-align: left;
+}
+
+.symbol-table th {
+    background-color: #3b2f2f;
+    color: white;
+}
+
+h3::before {
+    content: "📜 ";
+}
+
+p::first-letter {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #5a4635;
+    float: left;
+    margin-right: 8px;
+    line-height: 1;
+}
+
+.main-img {
+    max-width: 100%;
+    height: auto;
+    border: 6px solid #3b2f2f;
+    margin: 1.5rem auto;
+    display: block;
+}
+
+footer {
+    text-align: center;
+    padding: 1.5rem;
+    font-size: 0.75rem;
+    color: #5a4635;
+}
+
+.game-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 15px;
+}
+
+#board-area {
+    position: relative;
+    display: block;
+    width: 500px; 
+    height: 500px; 
+    border: 8px double #3b2f2f;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    overflow: hidden;
+    background-color: #fffaf0; 
+}
+
+#gameCanvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    cursor: crosshair; 
+    z-index: 1;
+}
+
+/* Multiplayer Token Updates */
+.token {
+    width: 25px; 
+    height: 25px;
+    border: 2px solid #3b2f2f;
+    border-radius: 50%;
+    position: absolute;
+    z-index: 10; 
+    transition: all 0.5s ease;
+    transform: translate(-50%, -50%); 
+}
+
+.player1 {
+    background-color: #d4af37; /* Gold */
+    box-shadow: 0 0 8px rgba(212, 175, 55, 0.8);
+}
+
+.player2 {
+    background-color: #c0c0c0; /* Silver */
+    box-shadow: 0 0 8px rgba(192, 192, 192, 0.8);
+}
+
+#controls {
+    width: 100%;
+    max-width: 400px;
+    background: #fffaf0;
+    padding: 20px;
+    border: 2px solid #c2b280;
+    box-sizing: border-box;
+}
+
+.manuscript-btn {
+    background-color: #5a4635;
+    color: #f5f0e6;
+    padding: 12px 20px;
+    border: none;
+    font-family: "Cinzel", serif;
+    cursor: pointer;
+    font-size: 1rem;
+    width: 100%;
+    margin-top: 10px;
+    transition: background 0.3s;
+}
+
+.manuscript-btn:hover {
+    background-color: #3b2f2f;
+}
+
+
+.login-wrapper {
+    display: flex;
+    justify-content: center;
+    padding: 30px 15px;
+}
+
+.ledger-form {
+    background-color: #fffaf0;
+    padding: 30px;
+    border: 1px solid #c2b280;
+    box-shadow: 8px 8px 0px #5a4635;
+    width: 100%;
+    max-width: 350px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-family: "Cinzel", serif;
+    font-size: 0.85rem;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #c2b280;
+    background: #fdfcf8;
+    box-sizing: border-box;
+    margin-bottom: 15px;
+}
+
+
+@media (min-width: 768px) {
+    header {
+        margin: 20px;
+        padding: 2.5rem;
+    }
+    header h1 {
+        font-size: 2.2rem;
+    }
+    nav a {
+        padding: 1.2rem 2rem;
+        font-size: 1rem;
+    }
+    .game-container {
+        flex-direction: row;
+        justify-content: center;
+        align-items: flex-start;
+        padding: 30px;
+    }
+    #board-area {
+        width: 500px;
+        height: 500px;
+    }
+    .symbol-table {
+        font-size: 0.95rem;
+    }
+}

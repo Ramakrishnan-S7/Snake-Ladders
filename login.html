@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Seeker Registry - Paramapadam</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Libre+Baskerville&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <header>
+        <h1>Seeker Registry</h1>
+        <p>Record your journey in the eternal archive.</p>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="mainPage.html"><i class="fa-solid fa-house"></i> Home</a></li>
+            <li><a href="rules.html"><i class="fa-solid fa-book"></i> Rules</a></li>
+            <li><a href="play.html"><i class="fa-solid fa-dice"></i> Play</a></li>
+            <li><a href="login.html"><i class="fa-solid fa-user"></i> Login</a></li>
+        </ul>
+    </nav>
+
+    <div class="login-wrapper">
+        <form class="ledger-form">
+            <h3>Identity of the Seeker</h3>
+            <div class="input-group">
+                <label for="username">Dharma Name (Username)</label>
+                <input type="text" id="username" name="username" required placeholder="Enter your name...">
+            </div>
+            <div class="input-group">
+                <label for="password">Secret Seal (Password)</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit" class="manuscript-btn">Enter the Archive</button>
+            <p class="form-footer">New seeker? <a href="#">Begin a new lineage.</a></p>
+        </form>
+    </div>
+</body>
+</html>

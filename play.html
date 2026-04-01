@@ -26,33 +26,40 @@
     </nav>
 
     <main class="game-container">
-        <div id="board-area">
-            <canvas id="gameCanvas" width="500" height="500"></canvas>
-            
-            <div id="player1-token" class="token player1"></div>
-            <div id="player2-token" class="token player2"></div>
+    <div id="board-area">
+        <canvas id="gameCanvas" width="500" height="500"></canvas>
+        <div id="token-container"></div>
+    </div>
+
+    <div id="controls">
+        <div class="status-box">
+            <div style="margin-bottom: 15px; text-align: center;">
+                <label for="player-count" style="font-family: 'Cinzel', serif; font-size: 0.9rem;">Total Seekers:</label>
+                <select id="player-count" onchange="setupGame()" style="padding: 5px; font-family: 'Libre Baskerville', serif;">
+                    <option value="1">1 Player</option>
+                    <option value="2" selected>2 Players</option>
+                    <option value="3">3 Players</option>
+                    <option value="4">4 Players</option>
+                </select>
+            </div>
+
+            <h3 id="turn-indicator" style="color: #8B0000; margin-top: 0; font-family: 'Cinzel', serif;">Player 1's Turn</h3>
+            <h4>Current State: <span id="current-square">Square 1</span></h4>
+            <p id="game-message">Select players and invoke fate.</p>
         </div>
 
-        <div id="controls">
-            <div class="status-box">
-                <h3 id="turn-indicator" style="color: #8B0000; margin-top: 0; font-family: 'Cinzel', serif;">Player 1's Turn (Gold)</h3>
-                
-                <h4>Current State: <span id="current-square">Square 1</span></h4>
-                <p id="game-message">Roll the die to begin your journey.</p>
-            </div>
-
-            <div class="dice-section">
-                <div id="dice-display"><i class="fa-solid fa-dice-one fa-3x"></i></div>
-                <button id="roll-btn" class="manuscript-btn" onclick="rollDie()">Invoke Fate (Roll Die)</button>
-            </div>
-
-            <div class="music-section">
-                <button id="music-btn" class="manuscript-btn" onclick="toggleMusic()">
-                    <i class="fa-solid fa-music"></i> Play Sacred Ambient
-                </button>
-            </div>
+        <div class="dice-section">
+            <div id="dice-display"><i class="fa-solid fa-dice-one fa-3x"></i></div>
+            <button id="roll-btn" class="manuscript-btn" onclick="rollDie()">Invoke Fate</button>
         </div>
-    </main>
+
+        <div class="music-section">
+            <button id="music-btn" class="manuscript-btn" onclick="toggleMusic()">
+                <i class="fa-solid fa-music"></i> Play Sacred Ambient
+            </button>
+        </div>
+    </div>
+</main>
 
     <audio id="bg-music" loop>
         <source src="pixel_perfect_productions-flute-amp-sitar-orchestral-fusion-447398.mp3" type="audio/mpeg">

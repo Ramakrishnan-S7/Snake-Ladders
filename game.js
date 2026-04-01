@@ -1,11 +1,6 @@
-
-const totalSquares = 121; // 11x11 grid
-
-const players = [
-    { id: 1, element: 'player1-token', square: 1, lastX: null, lastY: null, color: '#8B0000', name: 'Player 1 (Gold)' },
-    { id: 2, element: 'player2-token', square: 1, lastX: null, lastY: null, color: '#00008B', name: 'Player 2 (Silver)' }
-];
-
+// 1. GLOBAL VARIABLES
+const totalSquares = 121;
+let players = [];
 let currentPlayerTurn = 0;
 let fadeDelay = null;
 let fadeInterval = null;
@@ -18,9 +13,10 @@ boardImg.src = "Sample_board1.jpeg";
 
 boardImg.onload = () => {
     ctx.drawImage(boardImg, 0, 0, 500, 500);
-    initializePlayers(); 
+    setupGame(); // Initialize the dynamic players once the image loads
 };
 
+// 2. PORTALS (Ladders and Snakes)
 const portals = {
     16: 28, 19: 39, 30: 50, 41: 61, 52: 72, 63: 83, 74: 94, 65: 105, 79: 117,
     111: [110, 89], 113: [108, 90], 119: [103, 95],
@@ -30,12 +26,89 @@ const portals = {
     26: [19, 3], 17: 6
 };
 
+// 3. DYNAMIC SETUP FUNCTION
+function setupGame() {
+    // Ensure this element exists in your updated play.html
+    const selectElement = document.getElementById('player-count');
+    const numPlayers = selectElement ? parseInt(selectElement.value) : 2; 
+    
+    const tokenContainer = document.getElementById('token-container');
+    const loggedInUser = localStorage.getItem('gameUser') || "Player 1";
+    
+    // Clear existing tokens and arrays
+    if (tokenContainer) {
+        tokenContainer.innerHTML = '';
+    }
+    players = [];
+    currentPlayerTurn = 0;
+    
+    // Configurations for up to 4 players
+    const configs = [
+        { class: 'player1', name: loggedInUser, color: '#8B0000', offsetX: -8, offsetY: -8 }, // Top-Left
+        { class: 'player2', name: 'Player 2', color: '#00008B', offsetX: 8, offsetY: -8 },   // Top-Right
+        { class: 'player3', name: 'Player 3', color: '#B8860B', offsetX: -8, offsetY: 8 },   // Bottom-Left
+        { class: 'player4', name: 'Player 4', color: '#006400', offsetX: 8, offsetY: 8 }     // Bottom-Right
+    ];
+
+    // Generate tokens dynamically
+    for (let i = 0; i < numPlayers; i++) {
+        const c = configs[i];
+        
+        // 1. Create HTML Div
+        if (tokenContainer) {
+            const tokenDiv = document.createElement('div');
+            tokenDiv.id = `player-token-${i}`;
+            tokenDiv.className = `token ${c.class}`;
+            tokenContainer.appendChild(tokenDiv);
+        }
+
+        // 2. Push to State Array
+        players.push({
+            id: i,
+            element: `player-token-${i}`,
+            square: 1,
+            lastX: null,
+            lastY: null,
+            color: c.color,
+            name: c.name,
+            offsetX: c.offsetX,
+            offsetY: c.offsetY
+        });
+    }
+
+    // Clear canvas lines and place tokens on Square 1
+    ctx.drawImage(boardImg, 0, 0, 500, 500);
+    initializePositions();
+    updateTurnUI();
+    
+    const rollBtn = document.getElementById('roll-btn');
+    if (rollBtn) rollBtn.disabled = false;
+    
+    const messageDisplay = document.getElementById('game-message');
+    if (messageDisplay) messageDisplay.innerText = "Game started. Roll the die.";
+}
+
+function initializePositions() {
+    const tileSize = canvas.width / 11;
+    players.forEach(p => {
+        // Square 1 is row 0, col 0
+        p.lastX = (tileSize / 2) + p.offsetX;
+        p.lastY = canvas.height - (tileSize / 2) + p.offsetY;
+        
+        const token = document.getElementById(p.element);
+        if (token) {
+            token.style.left = p.lastX + "px";
+            token.style.top = p.lastY + "px";
+        }
+    });
+}
+
+// 4. CORE GAME FUNCTIONS
 async function rollDie() {
     const rollBtn = document.getElementById('roll-btn');
-    rollBtn.disabled = true;
+    if (rollBtn) rollBtn.disabled = true;
 
     let p = players[currentPlayerTurn];
-
     const roll = Math.floor(Math.random() * 6) + 1;
     document.getElementById('game-message').innerText = `${p.name} rolled a ${roll}!`;
 
@@ -43,10 +116,8 @@ async function rollDie() {
     if (p.square >= totalSquares) p.square = totalSquares;
 
     moveToken(p);
-    
     await new Promise(resolve => setTimeout(resolve, 600));
 
-    // Handle Snakes & Ladders
     if (portals[p.square]) {
         const target = portals[p.square];
         if (Array.isArray(target)) {
@@ -64,19 +135,19 @@ async function rollDie() {
         }
     }
 
-    document.getElementById('current-square').innerText = `Square: ${p.square}`;
-
-    // Check for Win or Pass Turn
     if (p.square === totalSquares) {
         document.getElementById('game-message').innerText = `${p.name} has Attained Moksha!`;
         document.getElementById('turn-indicator').innerText = "Game Over";
-    } else {
-        currentPlayerTurn = (currentPlayerTurn + 1) % players.length;
-        updateTurnUI();
-        rollBtn.disabled = false;
-    }
+        return; // Stop the game loop
+    } 
+
+    // Next Player
+    currentPlayerTurn = (currentPlayerTurn + 1) % players.length;
+    updateTurnUI();
+    if (rollBtn) rollBtn.disabled = false;
 }
 
+// 5. MOVEMENT & DRAWING
 function moveToken(playerObj) {
     const token = document.getElementById(playerObj.element);
     const tileSize = canvas.width / 11;
@@ -85,43 +156,26 @@ function moveToken(playerObj) {
     let col = (playerObj.square - 1) % 11;
     if (row % 2 !== 0) col = 10 - col;
 
-    const offset = playerObj.id === 1 ? -8 : 8; 
-    const currentX = (col * tileSize) + (tileSize / 2) + offset;
-    const currentY = canvas.height - ((row * tileSize) + (tileSize / 2));
+    const currentX = (col * tileSize) + (tileSize / 2) + playerObj.offsetX;
+    const currentY = canvas.height - ((row * tileSize) + (tileSize / 2)) + playerObj.offsetY;
 
-    
     if (playerObj.lastX !== null && playerObj.lastY !== null) {
         drawPath(playerObj.lastX, playerObj.lastY, currentX, currentY, playerObj.color);
     }
 
-    // Move Visual Token 
-    token.style.left = currentX + "px";
-    token.style.top = currentY + "px";
+    if (token) {
+        token.style.left = currentX + "px";
+        token.style.top = currentY + "px";
+    }
 
-   
     playerObj.lastX = currentX;
     playerObj.lastY = currentY;
 
     triggerFade();
 }
 
-function initializePlayers() {
-    players.forEach(p => {
-        const tileSize = canvas.width / 11;
-        let row = 0; let col = 0; // Square 1 logic
-        const offset = p.id === 1 ? -8 : 8; 
-        
-        p.lastX = (col * tileSize) + (tileSize / 2) + offset;
-        p.lastY = canvas.height - ((row * tileSize) + (tileSize / 2));
-        
-        const token = document.getElementById(p.element);
-        token.style.left = p.lastX + "px";
-        token.style.top = p.lastY + "px";
-    });
-}
-
 function drawPath(startX, startY, endX, endY, color) {
-    ctx.strokeStyle = color; // Uses Red for P1, Blue for P2
+    ctx.strokeStyle = color; 
     ctx.lineWidth = 4;
     ctx.lineCap = "round";
     ctx.setLineDash([8, 6]);
@@ -153,15 +207,19 @@ function triggerFade() {
 
 function updateTurnUI() {
     const indicator = document.getElementById('turn-indicator');
+    const currentSquareLabel = document.getElementById('current-square');
     const p = players[currentPlayerTurn];
-    indicator.innerText = `${p.name}'s Turn`;
-    indicator.style.color = p.color; 
     
-    
-    document.getElementById('current-square').innerText = `Square: ${p.square}`;
+    if (indicator) {
+        indicator.innerText = `${p.name}'s Turn`;
+        indicator.style.color = p.color; 
+    }
+    if (currentSquareLabel) {
+        currentSquareLabel.innerText = `Square: ${p.square}`;
+    }
 }
 
-// Audio 
+// 6. AUDIO CONTROLS
 const music = document.getElementById('bg-music');
 const musicBtn = document.getElementById('music-btn');
 

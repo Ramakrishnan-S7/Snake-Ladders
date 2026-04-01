@@ -18,7 +18,15 @@ header {
     font-family: "Cinzel", serif;
     box-shadow: 0 4px 10px rgba(0,0,0,0.3);
 }
+.player3 {
+    background-color: #cd7f32; /* Bronze */
+    box-shadow: 0 0 8px rgba(205, 127, 50, 0.8);
+}
 
+.player4 {
+    background-color: #50c878; /* Emerald Green */
+    box-shadow: 0 0 8px rgba(80, 200, 120, 0.8);
+}
 header h1 {
     margin-bottom: 0.5rem;
     text-align: center;
